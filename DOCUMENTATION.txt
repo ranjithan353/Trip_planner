@@ -1,0 +1,213 @@
+================================================================================
+                    AGENTIC AI TRAVEL PLANNER - DOCUMENTATION
+================================================================================
+
+OVERVIEW
+--------
+This is an AI-powered travel planning system that uses multiple specialized AI 
+agents to create personalized travel itineraries. The system runs entirely on your 
+local machine using Ollama, ensuring privacy and no cloud API costs.
+
+KEY FEATURES
+------------
+- Multi-agent AI system with 4 specialized agents
+- Weather-aware trip planning
+- Real-time activity research via web search
+- Automatic itinerary critique and refinement
+- Beautiful Streamlit web interface
+- 100% local processing (no cloud APIs needed)
+
+ARCHITECTURE
+------------
+The system uses 4 AI agents that work together:
+
+1. WEATHER AGENT
+   - Gets weather information for the destination
+   - Provides recommendations based on weather conditions
+
+2. ACTIVITY AGENT
+   - Searches the web for attractions and activities
+   - Researches restaurants, museums, and points of interest
+
+3. PLANNER AGENT
+   - Creates the main itinerary
+   - Organizes activities by day, morning, afternoon, and evening
+   - Includes meal suggestions and travel tips
+
+4. CRITIC AGENT (Optional)
+   - Reviews the itinerary for quality
+   - Identifies missing meals, overcrowded schedules, etc.
+   - Provides feedback for improvement
+
+INSTALLATION
+------------
+1. Prerequisites:
+   - Python 3.8 or higher
+   - Ollama installed (download from https://ollama.ai)
+
+2. Install Python dependencies:
+   pip install -r requirements.txt
+
+3. Start Ollama service:
+   ollama serve
+
+4. Download a model (in a new terminal):
+   ollama pull llama3.2
+   (or use: mistral, llama2, etc.)
+
+5. Run the application:
+   streamlit run app.py
+
+6. Open browser:
+   Navigate to http://localhost:8501
+
+CONFIGURATION
+-------------
+Edit config/llm_config.py to customize:
+
+- OLLAMA_MODEL: Change the AI model (default: "llama3.2")
+- OLLAMA_BASE_URL: Ollama server URL (default: "http://localhost:11434")
+- TEMPERATURE: AI creativity level 0-1 (default: 0.5)
+- MAX_ITERATIONS: Max conversation turns (default: 2)
+- ENABLE_CRITIQUE: Enable/disable critique step (default: False for speed)
+- ENABLE_REFINEMENT: Enable/disable refinement step (default: False for speed)
+
+USAGE
+-----
+1. Enter Destination:
+   - Type a city or destination name (e.g., "Paris", "Tokyo", "New York")
+   - System validates that it's a real place name
+
+2. Enter Duration:
+   - Number of days for your trip (1-30 days)
+
+3. Click "Plan My Trip":
+   - System will:
+     * Get weather information
+     * Research activities and attractions
+     * Create a day-by-day itinerary
+     * (Optional) Critique and refine the itinerary
+
+4. View Results:
+   - Weather information
+   - Complete itinerary with activities, meals, and tips
+   - Formatted for easy reading
+
+PROJECT STRUCTURE
+-----------------
+trip planner/
+├── agents/              # AI agent implementations
+│   ├── planner_agent.py      # Main itinerary creator
+│   ├── activity_agent.py     # Activity researcher
+│   ├── weather_agent.py       # Weather specialist
+│   └── critic_agent.py       # Quality reviewer
+│
+├── tools/               # Helper tools
+│   ├── weather_tool.py       # Weather data provider
+│   └── search_tool.py        # Web search (DuckDuckGo)
+│
+├── config/              # Configuration files
+│   └── llm_config.py        # LLM settings
+│
+├── app.py              # Streamlit web interface
+├── main.py             # Agent orchestrator
+└── requirements.txt    # Python dependencies
+
+PERFORMANCE OPTIMIZATION
+------------------------
+The system is optimized for speed:
+
+- Direct tool calls (no agent conversations for weather/activities)
+- Reduced LLM turns (1-2 turns instead of 5)
+- Lower temperature for faster responses
+- Chat history clearing between requests
+- Optional critique/refinement (disabled by default)
+
+Typical planning time: 30-60 seconds
+
+TROUBLESHOOTING
+---------------
+Problem: "Connection refused" to Ollama
+Solution: Make sure Ollama is running: ollama serve
+
+Problem: "Model not found"
+Solution: Download the model: ollama pull llama3.2
+
+Problem: Slow responses
+Solution: 
+- Use a smaller model (llama3.2:1b)
+- Reduce MAX_ITERATIONS in config
+- Ensure ENABLE_CRITIQUE and ENABLE_REFINEMENT are False
+
+Problem: Blank page in Streamlit
+Solution:
+- Check terminal for errors
+- Verify Ollama is running
+- Check browser console (F12)
+
+Problem: Invalid destination error
+Solution: Enter a real city or place name, not common words
+
+VALIDATION
+----------
+The system validates inputs to ensure:
+- Destination is a real place name (not random words)
+- Duration is between 1-30 days
+- No harmful characters in input
+- Proper format and capitalization
+
+TECHNOLOGIES USED
+-----------------
+- AutoGen 0.2.0: Multi-agent framework
+- Ollama: Local LLM runtime
+- Streamlit: Web interface
+- DuckDuckGo Search: Web search for activities
+- Python 3.8+: Programming language
+
+CUSTOMIZATION
+-------------
+To customize agent behavior, edit system messages in:
+- agents/planner_agent.py: Change planning style
+- agents/activity_agent.py: Modify research approach
+- agents/weather_agent.py: Adjust weather analysis
+- agents/critic_agent.py: Update critique criteria
+
+To add new tools:
+1. Create function in tools/ directory
+2. Register with agents using register_function()
+
+EXAMPLE OUTPUT
+--------------
+Input: Destination = "Paris", Duration = 3 days
+
+Output:
+- Weather: 18°C, Partly Cloudy
+- Day 1: Morning (Eiffel Tower), Afternoon (Louvre), Evening (Seine Cruise)
+- Day 2: Morning (Notre-Dame), Afternoon (Montmartre), Evening (Dinner)
+- Day 3: Morning (Museums), Afternoon (Shopping), Evening (Farewell)
+
+Each day includes:
+- Specific activities with times
+- Restaurant recommendations
+- Travel tips and practical information
+
+NOTES
+-----
+- All processing happens locally on your machine
+- No API keys or cloud services required
+- Your travel plans remain private
+- Internet connection needed only for activity search
+- Weather data uses curated information (not real-time API)
+
+SUPPORT
+-------
+For issues:
+1. Check that Ollama is running: ollama serve
+2. Verify model is downloaded: ollama list
+3. Check terminal for error messages
+4. Review config/llm_config.py settings
+
+================================================================================
+                            END OF DOCUMENTATION
+================================================================================
+
