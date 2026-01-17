@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ✈️ Agentic AI Travel Planner
 
 A production-grade, multi-agent AI system for creating intelligent travel itineraries using AutoGen, Ollama, and Streamlit.
@@ -223,3 +224,6 @@ For issues or questions:
 
 **Built with ❤️ using AutoGen, Ollama, and Streamlit**
 
+=======
+# Trip_planner
+>>>>>>> adc46d91eb8177383c65041e2193e6c276b18280
